@@ -72,7 +72,7 @@ def start_chat(img_pth: Path, settings: dict) -> None:
       break
     # Requirement 3: Print answer to the user-provided question about the input image
     answer = model.query(image, prompt, settings) 
-    print("\nModel: ", answer, "\n")
+    print("\nModel: ", answer["answer"], "\n")
 
 def main():
   # Requirement 1: Take input image path (png) as a CLI argument
