@@ -35,7 +35,7 @@ def load_moondream() -> PreTrainedModel:
       "vikhyatk/moondream2",
       local_files_only=True,
       trust_remote_code=True,
-      torch_dtype=torch.bfloat16,
+      dtype=torch.bfloat16,
       device_map=device,
       )
     print("Model is ready!")
@@ -61,9 +61,9 @@ def start_chat(img_pth: Path, settings: dict) -> None:
   except Exception as e:
     sys.exit("Error opening image:", e)
 
-  print("="*15)
-  print("\tYou can ask questions about the image.\n\tType 'exit' to stop conversation.\n")
-  print("="*15)
+  print("="*60)
+  print("\tYou can ask questions about the image.\n\tType 'exit' to stop conversation.")
+  print("="*60)
   # Requirement 2: Prompt the user to input a question for the model to answer
   while True:
     prompt = input("User: ").strip()
