@@ -11,7 +11,7 @@ WORKDIR /moondream
 COPY . .
 
 # install moondream models as cache to be used when needed
-RUN python install_model.py
+RUN python install_model.py && rm install_model.py
 
 # disable model installation from internet (just to make sure)
 ENV HF_HUB_OFFLINE=1
