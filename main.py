@@ -8,6 +8,7 @@ and then generates an AI-driven description or answer based on the visual conten
 
 import sys
 import os
+os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 import argparse
 from pathlib import Path
 
