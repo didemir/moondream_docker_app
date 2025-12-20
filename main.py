@@ -15,8 +15,6 @@ from transformers import AutoModelForCausalLM, PreTrainedModel
 from PIL import Image
 import torch
 
-# TODO: keep conversation going till the user wants to exit.
-
 
 def load_moondream() -> PreTrainedModel:
   """
@@ -29,7 +27,7 @@ def load_moondream() -> PreTrainedModel:
   """
   try:
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print("loading model to", device, "...")
+    print(f"loading model to {device} ...")
 
     model = AutoModelForCausalLM.from_pretrained(
       "vikhyatk/moondream2",
@@ -41,25 +39,25 @@ def load_moondream() -> PreTrainedModel:
     print("Model is ready!")
     return model
   except Exception as e:
-    sys.exit("Error loading model:", e)
+    sys.exit(f"Error loading model: {e}")
 
 
-def start_chat(img_pth: Path, settings: dict) -> None:
+def start_chat(image_pth: Path, settings: dict) -> None:
   """
   Main function to process image with Moondream model.
   Allows continuous conversation about the same image until user exits.
 
   Args:
   -----
-    img_path: Path to the input image
+    image_pth: Path to the input image
     settings: Model generation settings
   """
   model = load_moondream()
 
   try:
-    image = Image.open(img_pth)
+    image = Image.open(image_pth)
   except Exception as e:
-    sys.exit("Error opening image:", e)
+    sys.exit(f"Error opening image: {e}")
 
   print("="*60)
   print("\tYou can ask questions about the image.\n\tType 'exit' to stop conversation.")
@@ -72,7 +70,7 @@ def start_chat(img_pth: Path, settings: dict) -> None:
       break
     # Requirement 3: Print answer to the user-provided question about the input image
     answer = model.query(image, prompt, settings) 
-    print("\nModel: ", answer["answer"], "\n")
+    print(f"\nModel: {answer['answer']}\n")
 
 def main():
   # Requirement 1: Take input image path (png) as a CLI argument
@@ -80,10 +78,10 @@ def main():
   parser.add_argument("--image", "-i", type=Path, help="Image path.")
   parser.add_argument("--temp", "-t", type=float, default=0.5, help="Model temperature. Must be float. Default value is 0.5.")
   parser.add_argument("--max_token", "-m", type=int, default=126, help="Maximum tokens.Must be integer. Default is 126.")
-  parser.add_argument("--topp", "-p", type=float, default=0.3, help="Top P value. Most e float. Default is 0.3.")
+  parser.add_argument("--topp", "-p", type=float, default=0.3, help="Top P value. Must e float. Default is 0.3.")
   args = parser.parse_args()
 
-  # if the user did not used the cli tag to take image, prompts user to enter path
+  # if the cli tag has not been used to take image, prompts user to enter path
   image_path = Path(args.image or input("Enter a valid input image path (you can test with husky.png path): "))
   if not image_path.exists():
     sys.exit(f"Error: The entered image path does not exist: {image_path}")
