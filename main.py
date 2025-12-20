@@ -8,10 +8,11 @@ and then generates an AI-driven description or answer based on the visual conten
 
 import sys
 import os
-os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 import argparse
 from pathlib import Path
 
+import transformers
+transformers.utils.logging.set_verbosity_error()
 from transformers import AutoModelForCausalLM, PreTrainedModel
 from PIL import Image
 import torch
