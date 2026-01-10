@@ -8,7 +8,7 @@ RUN apt-get install -y python3-pip python3-dev gcc g++ make
 RUN pip install "transformers>=4.51.1" "torch>=2.7.0" "accelerate>=1.10.0" "Pillow>=11.0.0" gradio
 
 WORKDIR /moondream
-COPY . .
+COPY gui.py install_model.py .
 
 # install moondream models as cache to be used when needed
 RUN python install_model.py && rm install_model.py
@@ -16,6 +16,7 @@ RUN python install_model.py && rm install_model.py
 # disable model installation from internet (just to make sure)
 ENV HF_HUB_OFFLINE=1
 
-RUN chmod +x main.py
-
+# expose default gradio port
 EXPOSE 7860
+
+CMD ["python","gui.py"]
