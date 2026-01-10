@@ -5,7 +5,7 @@ RUN apt-get update -y
 RUN apt-get install -y python3-pip python3-dev gcc g++ make
 
 # install moondream dependencies
-RUN pip install "transformers>=4.51.1" "torch>=2.7.0" "accelerate>=1.10.0" "Pillow>=11.0.0"
+RUN pip install "transformers>=4.51.1" "torch>=2.7.0" "accelerate>=1.10.0" "Pillow>=11.0.0" gradio
 
 WORKDIR /moondream
 COPY . .
@@ -18,3 +18,4 @@ ENV HF_HUB_OFFLINE=1
 
 RUN chmod +x main.py
 
+EXPOSE 7860
